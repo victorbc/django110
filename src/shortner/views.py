@@ -17,13 +17,24 @@ class HomeView(View):
 
     def post(self, request, *args, **kwargs):
         form = SubmitUrlForm(request.POST)
-        if form.is_valid():
-            print (form.cleaned_data)
         context = {
             "title": "Nova Url",
             "form": form
         }
-        return render(request, "shortner/home.html", context)
+        template = "shortner/home.html"
+        if form.is_valid():
+            new_url = form.cleaned_data.get('url')
+            obj, created = KirrURL.objects.get_or_create(url=new_url)
+            context = {
+                'object': obj,
+                'created': created
+            }
+            if created:
+                template = 'shortner/sucess.html'
+            else:
+                template = 'shortner/exists.html'
+
+        return render(request, template, context)
 
 
 class KirrCBView(View):
