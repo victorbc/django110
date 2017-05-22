@@ -1,1 +1,9 @@
-<h1>Pagina Inicial</h1>
+<div style="width: 800px; margin: 0 auto;">
+    <h1>{{ title }}</h1>
+    <form method="POST" action=".">
+        {% csrf_token %}
+        <!--<input name='url' type="text" placeholder="Encurte sua URL"/>-->
+        {{ form.as_p }}
+        <input type="submit" value="Encurtar">
+    </form>
+</div>
